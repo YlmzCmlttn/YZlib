@@ -1,0 +1,13 @@
+prefix=/home/cyvision/CYVision/Local_Git/CYVision/3rd_Party/glfw-3.3.1/install
+exec_prefix=${prefix}
+includedir=/home/cyvision/CYVision/Local_Git/CYVision/3rd_Party/glfw-3.3.1/install/include
+libdir=/home/cyvision/CYVision/Local_Git/CYVision/3rd_Party/glfw-3.3.1/install/lib
+
+Name: GLFW
+Description: A multi-platform library for OpenGL, window and input
+Version: 3.3.1
+URL: https://www.glfw.org/
+Requires.private:  x11
+Libs: -L${libdir} -lglfw3
+Libs.private:  -lrt -lm -ldl
+Cflags: -I${includedir}
