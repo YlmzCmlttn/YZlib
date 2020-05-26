@@ -37,9 +37,11 @@ add_library(
     src/Image/Png_Operations.cpp
     src/Image/Jpeg_Operations.cpp
     src/Image/Bmp_Operations.cpp
+#GUI
+    src/GUI/Window.cpp
 )
-target_link_libraries(YZlib png jpeg ${LAPACK_LIBRARIES} ${GLFW_LIBS} ${GLAD_LIBS} ${CUDA_LIBS})
-target_include_directories(YZlib PUBLIC ${CUDA_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/include" "/usr/local/include")
+target_link_libraries(YZlib png jpeg ${FFMPEG_LIBRARIES} ${LAPACK_LIBRARIES} ${GLFW_LIBS} ${GLAD_LIBS} ${CUDA_LIBS})
+target_include_directories(YZlib PUBLIC ${FFMPEG_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/include" "/usr/local/include")
 if(CUDA_SUPPORT)
     set_target_properties(YZlib PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 endif()
