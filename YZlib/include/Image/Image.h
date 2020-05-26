@@ -80,6 +80,7 @@ namespace YZlib{
         size_t colorType2channel(const Color_Type&);
         Color_Type channel2colorType(const size_t&);
     };
+    typedef Image_ Image;
 }
 #include "Image/Image_Functions.h"
 #endif
