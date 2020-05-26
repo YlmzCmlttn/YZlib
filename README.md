@@ -5,6 +5,7 @@
 in process:
 *   Point2D Point3D
 *   Rectangle
+*   SDL
 todo:
 *   GLFW or SDL ??
 *   p3 p5
