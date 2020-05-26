@@ -1,6 +1,7 @@
 #ifndef YZ_POINT2D_IMPL_HPP
 #define YZ_POINT2D_IMPL_HPP
 #include "Geometry/Point2D.h"
+#include "Geometry/Point/Point_Debug.hpp"
 namespace YZlib{
     template<typename Tp>
     Point2D<Tp>::Point2D():x(0),y(0){

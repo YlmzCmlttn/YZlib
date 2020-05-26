@@ -1,7 +1,6 @@
 #ifndef YZ_POINT2D_HPP
 #define YZ_POINT2D_HPP
 #include <iostream>
-#include "Geometry/Point3D.h"
 namespace YZlib{
     template<typename Tp>
     class Point2D
@@ -44,10 +43,11 @@ namespace YZlib{
         Tp sum()const;
         Tp mean()const;
         Tp distance()const;
-        Point3D<Tp> to3D(const Tp&)const;
+        //
         ~Point2D();
     };
 }
 #include "Geometry/Point/Point2D_Impl.hpp"
 #include "Geometry/Point/Point2D_Operators.hpp"
+#include "Geometry/Point3D.h"
 #endif
