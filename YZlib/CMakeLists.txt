@@ -39,6 +39,8 @@ add_library(
     src/Image/Bmp_Operations.cpp
 #GUI
     src/GUI/Window.cpp
+#VIDEO
+    src/Video/VideoReader.cpp
 )
 target_link_libraries(YZlib png jpeg ${FFMPEG_LIBRARIES} ${LAPACK_LIBRARIES} ${GLFW_LIBS} ${GLAD_LIBS} ${CUDA_LIBS})
 target_include_directories(YZlib PUBLIC ${FFMPEG_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/include" "/usr/local/include")
