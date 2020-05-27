@@ -7,13 +7,36 @@ extern "C"{
 #include <libavformat/avformat.h>
 }
 #include"GUI/Window.h"
+#include"Video/VideoReader.h"
 using namespace YZlib;
 #define LOG(x) std::cout<<x<<std::endl;
 
 bool load_frame(const std::string& filename);
 int main(){
     //av_register_all();
-    load_frame("/home/cemo/YZlib/Examples/out.mp4");
+    //load_frame("/home/cemo/YZlib/Examples/out.mp4");
+    VideoReader cap("/home/cemo/CYVision/Back/Workspace/Media/Video/Test.AVI");
+
+   auto png_image = cap.read();
+    Window window;
+   Window_Event e;
+   window.setWindowBounds(Rectangle<int>(100,100,png_image.getWidth(),png_image.getHeight()));
+   window.createWindow("Test");
+   window.createRenderer();
+   window.showWindow();
+   bool running = true;
+   while(running){    
+
+       png_image = cap.read();
+        window.RGB2Texture((void*)png_image.getData().getData().get(),png_image.getWidth(),png_image.getHeight(),24,png_image.getWidth()*png_image.getChannel());     
+        window.render();
+      auto ret = Event_Handler(e);
+        if (auto c = std::get_if<char>(&ret)){
+            LOG(*c);
+        }else{
+            running = std::get<bool>(ret);
+        }
+   }
     return 0;
 }
 bool load_frame(const std::string& filename){

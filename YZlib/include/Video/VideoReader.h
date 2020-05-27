@@ -10,17 +10,27 @@ namespace YZlib{
     class VideoReader
     {
     private:
+        int videoStreamIndex;
+        int frameFinished;
         struct AV{
-            AVFormatContext* format_ctx=NULL;
-            AVCodecParameters* codec_params=NULL;
-            AVCodec* codec=NULL;
-            AVCodecContext* codec_ctx=NULL;
-            AVDictionary* optionsDict=NULL;
-            AVFrame* frame=NULL;
+            
+            AVFormatContext* format_ctx_=NULL;
+            AVCodecParameters* codec_params_=NULL;
+            AVCodec* codec_=NULL;
+            AVCodecContext* codec_ctx_=NULL;
+            AVDictionary* optionsDict_=NULL;
+            AVFrame* frame_=NULL;
+            AVPacket *packet=NULL;
+            AVFrame* frameRGB_=NULL;            
+            uint numBytes_;
+            uint8_t *buffer = NULL;
         }av;
 
     private:
-        void init();        
+        void init();
+
+        //
+                
     public:
         VideoReader(/* args */);
         VideoReader(const std::string&);
@@ -31,7 +41,7 @@ namespace YZlib{
         void operator >> (Image&);
         
 
-        Image& read();
+        Image read();
         ~VideoReader();
     };
 }
