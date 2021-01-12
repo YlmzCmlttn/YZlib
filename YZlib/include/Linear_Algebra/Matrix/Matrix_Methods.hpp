@@ -1,9 +1,10 @@
 #ifndef YZ_LINEAR_ALGEBRA_MATRIX_METHODS_HPP
 #define YZ_LINEAR_ALGEBRA_MATRIX_METHODS_HPP
-#include "Linear_Algebra/Matrix.h"
+#include "Linear_Algebra/Matrix/Matrix.h"
 #include "Linear_Algebra/Matrix/Matrix_Debug.hpp"
 #include "Core/Assert.hpp"
 #include "Thread/Thread_Function.hpp"
+#include "Core/Timer.h"
 namespace YZlib{
     //Methods
     //public;
@@ -72,9 +73,34 @@ namespace YZlib{
     std::unique_ptr<Tp[]>&& Matrix_<Tp>::moveData(){
         return std::move(data_);
     }
+
+    
+    template <typename Tp>
+    Matrix_<Tp> Matrix_<Tp>::transpose()const{
+        Matrix_<Tp> ret(this->cols_,this->rows_,this->majorOrder_,this->parallel_);
+        for(uint i=0;i<this->rows_;i++){
+            for(uint j=0;j<this->cols_;j++){
+                ret(j,i)=this->get(i,j);
+            }
+        }
+        return ret;
+    }
+
+    template <typename Tp>
+    Tp Matrix_<Tp>::sum()const{
+        Tp sum_=0;        
+        for(uint i=0;i<this->rows_;i++){
+            for(uint j=0;j<this->cols_;j++){
+                sum_+=this->get(i,j);
+            }
+        }
+        return sum_;
+    }
+
     //private:
     template <typename Tp>
     void Matrix_<Tp>::copyData(const std::unique_ptr<Tp[]>& _data){
+        Timer copyDataTimer("copyData timer:");
         MATRIX_WARNING_D("copyData(const std::unique_ptr<Tp[]>& _data)");
         std::function<Tp(Tp)> f = [](Tp a){return a;};
         thread_operator_call(_data,f);    
@@ -127,7 +153,8 @@ namespace YZlib{
     template<typename Tp>
     bool Matrix_<Tp>::thread_bool_operator_call(const Matrix_<Tp> &_m, const std::function<bool(Tp,Tp)>& f){
         bool ret_ = true;
-        if(check_parallel()){
+        if(false){
+        // if(check_parallel()){
             //thread_wrapper<Tp,Tp>(f,this->size_,NUM_OF_THREAD,this->data_.get(),this->data_.get(),_m.data_.get());
         }else{
             for(uint i=0;i<this->size_;i++){
@@ -141,7 +168,7 @@ namespace YZlib{
     }
     template<typename Tp>
     bool Matrix_<Tp>::check_parallel()const{        
-        if(this->parallel_==Parallel::Parallel){
+        if(this->parallel_==Parallel::Parallel && uint(this->getSize()) > 1024){
 #ifdef PARALLEL_MATRIX
             return true;
 #else

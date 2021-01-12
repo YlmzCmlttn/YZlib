@@ -155,7 +155,7 @@
     dest->os->flush();
   }
 
-  void my_set_dest_mgr(j_compress_ptr cinfo, std::ostream& os) {
+  void my_set_dest_mgr(j_compress_ptr cinfo, std::ostream& os){
     my_destination_mgr* dest;
 
     if (cinfo->dest == NULL) {	/* first time for this JPEG object? */

@@ -14,7 +14,7 @@ namespace YZlib{
         Color_Type colorType_;
         Matrix_<unsigned char> data_;
     public:
-        Image_()=delete;
+        Image_();
         Image_(const Image_&);
         Image_(Image_&&)noexcept;
         Image_(const std::string&);

@@ -1,6 +1,6 @@
 #ifndef YZ_LINEAR_ALGEBRA_MATRIX_OPERATORS_HPP
 #define YZ_LINEAR_ALGEBRA_MATRIX_OPERATORS_HPP
-#include "Linear_Algebra/Matrix.h"
+#include "Linear_Algebra/Matrix/Matrix.h"
 #include "Linear_Algebra/Matrix/Matrix_Debug.hpp"
 #include "Core/Assert.hpp"
 namespace YZlib{  

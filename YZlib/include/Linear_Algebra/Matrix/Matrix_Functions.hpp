@@ -1,7 +1,11 @@
 #ifndef YZ_LINEAR_ALGEBRA_MATRIX_FUNCTIONS_HPP
 #define YZ_LINEAR_ALGEBRA_MATRIX_FUNCTIONS_HPP
 #include <math.h>
-#include "Linear_Algebra/Matrix.h"
+#include <chrono>
+#include <random>
+
+#include "Core/Timer.h"
+#include "Linear_Algebra/Matrix/Matrix.h"
 #include "Linear_Algebra/Matrix/Matrix_Debug.hpp"
 #include "Core/Assert.hpp"
 #include "Linear_Algebra/Matrix/Matrix_Blas.h"
@@ -186,34 +190,97 @@ namespace YZlib{
         _ret.thread_operator_call(matrix.data_,[](Tp_ a){return ::abs(a);});
         return std::move(_ret);
     }
+    template<typename Tp_>
+    Matrix_<Tp_> sigmoid(const Matrix_<Tp_> &matrix){
+        Matrix_<Tp_> _ret(matrix.rows_,matrix.cols_,matrix.majorOrder_,matrix.parallel_);
+        _ret.thread_operator_call(matrix.data_,[](Tp_ a){return 1.0f/(1.0f+::exp(-a));});
+        return std::move(_ret);
+    }
+
+    template<typename Tp_>
+    Tp_ sum(const Matrix_<Tp_> &matrix){        
+        return matrix.sum();
+    }
+
+    template <typename Tp_>
+    std::variant<Matrix_<Tp_>,Tp_> sum(const Matrix_<Tp_> &matrix,bool keepDims){
+        if(!keepDims){
+            Matrix_<Tp_> r_t(1);
+            Tp_ _t=0;
+            for(uint i=0;i<matrix.size;i++){
+                _t=_t+matrix.get(i);
+            }
+            r_t[0]=_t;
+            return r_t;
+        }else{            
+            return sum(matrix);
+        }
+    }
 
 
+    template<typename Tp_>
+    Tp_ mean(const Matrix_<Tp_> &matrix){        
+        return matrix.sum()/uint(matrix.size_);
+    }
     //Horizontal concoat
     //Vertical concat
     //linspace
-    
+    // template<typename Tp_>
+    // Matrix_<Tp_> rand(const Matrix_<Tp_> &matrix){
+    //     Matrix_<Tp_> _ret(matrix.rows_,matrix.cols_,matrix.majorOrder_,matrix.parallel_);
+    //     _ret.thread_operator_call(matrix.data_,[](Tp_ a){return (Tp_)::rand()/(Tp_)RAND_MAX;});
+    //     return std::move(_ret);
+    // }
+    // template<typename Tp_>
+    // Matrix_<Tp_> randn(const Matrix_<Tp_> &matrix,unsigned seed=std::chrono::system_clock::now().time_since_epoch().count()){
+    //     std::default_random_engine generator(seed);
+    //     std::normal_distribution<double> distribution (0.0,1.0);
+    //     Matrix_<Tp_> _ret(matrix.rows_,matrix.cols_,matrix.majorOrder_,matrix.parallel_);        
+    //     _ret.thread_operator_call(matrix.data_,[&generator,&distribution](){
+    //         return distribution(generator);});
+    //     return std::move(_ret);
+    // }
+
     //rand
     //randn
     //sum keepdims
-    //sigmoid
+    //sigmoid DONE!
     //relu
-    //muliply
-    //inverse
+    //muliply DONE!
+    //inverse DONE!
     //dot product
 
     template<typename Tp_>
-    Matrix_<Tp_> mult(const Matrix_<Tp_> &_A,const Matrix_<Tp_> &_B){
+    Matrix_<Tp_> mult(const Matrix_<Tp_> &_A,const Matrix_<Tp_> &_B){        
         Matrix_<double> _C(_A.getNumberofRows(),_B.getNumberofCols());
-        Matrix_<double> A_tmp = Matrix_<Tp_>(_A);
-        Matrix_<double> B_tmp = Matrix_<Tp_>(_B); 
+        // Matrix_<double> A_tmp = Matrix_<Tp_>(_A);
+        // Matrix_<double> B_tmp = Matrix_<Tp_>(_B); 
 
-        cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,_A.getNumberofRows(), _B.getNumberofCols(), _A.getNumberofCols(), 1.0,
-            (const double*)(A_tmp.getConstData().get()), _A.getNumberofCols(),
-            (const double*)(B_tmp.getConstData().get()), _B.getNumberofCols(), 0.0,
+        {
+            cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,_A.getNumberofRows(), _B.getNumberofCols(), _A.getNumberofCols(), 1.0,
+            (const double*)(_A.getConstData().get()), _A.getNumberofCols(),
+            (const double*)(_B.getConstData().get()), _B.getNumberofCols(), 0.0,
             (double*)(_C.getData().get()), _B.getNumberofCols());
-        Matrix_<Tp_> _ret = Matrix_<Tp_>(_C);
-        return _ret;
+        }
+        
+
+        return Matrix_<Tp_>(_C);
     }
+    // template<typename Tp_>
+    // Matrix_<Tp_> mult(const Matrix_<Tp_> &_A,const Matrix_<Tp_> &_B){
+    //     Matrix_<Tp_> _t(_A.rows(),_B.cols());
+    //     if(_A.cols()==_B.rows()){
+    //         for(uint i=0;i<_A.rows();i++){
+    //             for(uint j=0;j<_B.cols();j++){
+    //                 for(uint k=0;k<_A.cols();k++){
+    //                     _t(i,j)+=_A.get(i,k)*_B.get(k,j);
+    //                 }
+    //             }   
+    //         }
+    //     }
+    //     return _t;
+        
+    // }
     template<typename Tp_>
     Matrix_<double> inve(const Matrix_<Tp_>& _A){        
         Matrix_<double> A_tmp = Matrix_<Tp_>(_A);

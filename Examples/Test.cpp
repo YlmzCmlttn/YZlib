@@ -71,6 +71,10 @@ int main()
         ret = mult(estMat,estVec);    
     }
     std::cout<<(ret)<<std::endl;  
+
+    std::cout<<(estVec)<<std::endl;  
+
+    std::cout<<(estMat)<<std::endl;  
    
    return 0;
 }

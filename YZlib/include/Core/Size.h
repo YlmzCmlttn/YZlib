@@ -18,6 +18,12 @@ namespace YZlib{
             os<<"H(rows): "<< _s.rows <<" W(cols): "<< _s.cols;
             return os;
         }
+        inline operator uint(){
+            return size();
+        }
+        inline operator int(){
+            return size();
+        }
     };
 }
 #endif

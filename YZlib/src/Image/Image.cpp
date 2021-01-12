@@ -1,5 +1,9 @@
 #include "Image/Image.h"
 namespace YZlib{
+    Image_::Image_()        
+    {
+        *this = std::move(Image_(Matrix_<unsigned char>()));
+    }
     Image_::Image_(const Image_& image)
         :width_(image.width_),height_(image.height_),channel_(image.channel_),colorType_(image.colorType_),data_(image.data_)
     {
