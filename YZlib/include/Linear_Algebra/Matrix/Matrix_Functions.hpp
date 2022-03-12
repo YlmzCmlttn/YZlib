@@ -258,9 +258,9 @@ namespace YZlib{
 
         {
             cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,_A.getNumberofRows(), _B.getNumberofCols(), _A.getNumberofCols(), 1.0,
-            (const double*)(_A.getConstData().get()), _A.getNumberofCols(),
-            (const double*)(_B.getConstData().get()), _B.getNumberofCols(), 0.0,
-            (double*)(_C.getData().get()), _B.getNumberofCols());
+            (const double*)(_A.getConstData()), _A.getNumberofCols(),
+            (const double*)(_B.getConstData()), _B.getNumberofCols(), 0.0,
+            (double*)(_C.getData()), _B.getNumberofCols());
         }
         
 
@@ -284,7 +284,7 @@ namespace YZlib{
     template<typename Tp_>
     Matrix_<double> inve(const Matrix_<Tp_>& _A){        
         Matrix_<double> A_tmp = Matrix_<Tp_>(_A);
-        inverse(A_tmp.getConstData().get(),A_tmp.getSize().size()/2);
+        inverse(A_tmp.getConstData(),A_tmp.getSize().size()/2);
         return A_tmp;
     }
 }

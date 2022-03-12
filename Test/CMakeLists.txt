@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(YZlib_Test LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -g -O3 -mavx -mfma")
 
 set (GTEST_INCLUDE_DIRS ../3rd_Party/Google_Test/Linux/include)
 set (GTEST_LIBS_DIR ../3rd_Party/Google_Test/Linux/lib)

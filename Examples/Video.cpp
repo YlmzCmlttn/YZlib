@@ -28,7 +28,7 @@ int main(){
    while(running){    
 
        png_image = cap.read();
-        window.RGB2Texture((void*)png_image.getData().getData().get(),png_image.getWidth(),png_image.getHeight(),24,png_image.getWidth()*png_image.getChannel());     
+        window.RGB2Texture((void*)png_image.getData().getData(),png_image.getWidth(),png_image.getHeight(),24,png_image.getWidth()*png_image.getChannel());     
         window.render();
       auto ret = Event_Handler(e);
         if (auto c = std::get_if<char>(&ret)){

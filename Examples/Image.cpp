@@ -41,7 +41,7 @@ int main(){
    window.createWindow("Test");
    window.createRenderer();
    window.showWindow();
-   window.RGB2Texture((void*)png_image.getData().getData().get(),png_image.getWidth(),png_image.getHeight(),24,png_image.getWidth()*png_image.getChannel());
+   window.RGB2Texture((void*)png_image.getData().getData(),png_image.getWidth(),png_image.getHeight(),24,png_image.getWidth()*png_image.getChannel());
      
       window.render();
    bool running = true;

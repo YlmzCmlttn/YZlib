@@ -39,6 +39,8 @@ set (GLEW_INCLUDE_DIR ../3rd_Party/Glew-2.1.0/Linux/include)
 set (GLEW_LIBS_DIR ../3rd_Party/Glew-2.1.0/Linux/lib)
 set (GLEW_LIBS GLEW)
 
+find_package(Eigen3 3.3.9 REQUIRED PATHS "../3rd_Party/Eigen-3.3.9" NO_MODULE)
+
 include_directories(${FFMPEG_INCLUDE_DIRS} ${SDL_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS} ${OPENBLAS_INCLUDE_DIRS} ${GLFW_INCLUDE_DIR} ${GLAD_INCLUDE_DIR} ${GLEW_INCLUDE_DIR})
 link_directories("/usr/local/cuda/lib64" "/usr/local/lib" ${FFMPEG_LIBS_DIR} ${SDL_LIBS_DIR} ${OPENBLAS_LIBS_DIR} ${GLFW_LIBS_DIR} ${GLAD_LIBS_DIR} ${GLEW_LIBS_DIR})
 
@@ -49,7 +51,7 @@ add_subdirectory(../YZlib YZlib_build)
 macro(add_example name)
 add_executable(${name} ${name}.cpp)
 set_property(TARGET ${name} PROPERTY CUDA_SEPARABLE_COMPILATION ON)
-target_link_libraries(${name} YZlib pthread ${FFMPEG_LIBRARIES} ${SDL_LIBRARIES}  ${CUDA_LIBS} ${OPENBLAS_LIBRARIES} ${GLFW_LIBS} ${GLAD_LIBS} ${GLEW_LIBS})
+target_link_libraries(${name} YZlib pthread Eigen3::Eigen ${FFMPEG_LIBRARIES} ${SDL_LIBRARIES}  ${CUDA_LIBS} ${OPENBLAS_LIBRARIES} ${GLFW_LIBS} ${GLAD_LIBS} ${GLEW_LIBS})
 endmacro()
 
 add_example(Test)

@@ -74,8 +74,9 @@ int main(void)
         
         std::cout<<"hes"<<std::endl;
         {
+            Timer t("h");
         Matrixd xx(10240,10240);
-        Timer t("h");
+        
         xx=xx+xx;
         }
 

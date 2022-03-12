@@ -15,8 +15,8 @@ namespace YZlib{
     void function_wrapper_b(const std::function<T_ret(T_arrays...)>& _func,
                             const uint& iter,const uint& size,
                             const uint& id,
-                            std::unique_ptr<T_ret>& ret,
-                            std::unique_ptr<T_arrays>& ...arrays,
+                            T_ret* ret,
+                            const T_arrays* ...arrays,
                             T_arrays ...inputs)
     {
         uint _index=0;
@@ -33,7 +33,7 @@ namespace YZlib{
                             const uint& iter,const uint& size,
                             const uint& id,
                             T_ret* ret,
-                            T_arrays* ...arrays)
+                            const T_arrays* ...arrays)
     {
         uint _index=0;
         for(uint i=0;i<iter;i++){
@@ -82,7 +82,7 @@ namespace YZlib{
                         const uint& size, 
                         const uint& number_of_threads,
                         T_ret* ret,
-                        T_arrays* ...arrays)
+                        const T_arrays* ...arrays)
     {
         std::vector<std::thread> thread_pool;
         uint _iter = index_of_thread(size,number_of_threads);

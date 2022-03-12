@@ -13,7 +13,7 @@ namespace YZlib{
         size_t rows_;
         size_t cols_;
         size_t size_;
-        std::unique_ptr<Tp[]> data_;
+        Tp* data_;
         Major_Order majorOrder_;
         Parallel parallel_;
     public:
@@ -125,9 +125,9 @@ namespace YZlib{
         void setSize(const Size&);//NOT IMPLEMENTED (NOT POSSIBLE)
 
 
-        std::unique_ptr<Tp[]>& getData();
-        const std::unique_ptr<Tp[]>& getConstData()const;
-        std::unique_ptr<Tp[]>&& moveData();
+        Tp* getData();
+        const Tp* getConstData()const;
+        Tp* moveData();
 
         Major_Order getMajorOrder()const;
         void setMajorOrder(const Major_Order&);
@@ -157,11 +157,11 @@ namespace YZlib{
         void fill(const Tp&);
 //
     private:
-        void copyData(const std::unique_ptr<Tp[]>&);
+        void copyData(const Tp*);
         
         void thread_operator_call(const Tp &_m, const std::function<Tp(Tp,Tp)>& f);
         void thread_operator_call(const Tp &_m, const std::function<Tp(Tp)>& f);
-        void thread_operator_call(const std::unique_ptr<Tp[]>&,const std::function<Tp(Tp)>& f);
+        void thread_operator_call(const Tp*,const std::function<Tp(Tp)>& f);
         void thread_operator_call(const Matrix_<Tp> &_m,const std::function<Tp(Tp,Tp)>& f);
         bool thread_bool_operator_call(const Matrix_<Tp> &_m,const std::function<bool(Tp,Tp)>& f);
         bool check_parallel()const;

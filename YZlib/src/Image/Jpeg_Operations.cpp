@@ -190,7 +190,7 @@ namespace YZlib{
 
         JSAMPROW row;
         while (cinfo.next_scanline < cinfo.image_height) {
-            row = (JSAMPROW)((char*)image.getConstData().getConstData().get()+(cinfo.next_scanline*image.getConstData().getNumberofCols()));            
+            row = (JSAMPROW)((char*)image.getConstData().getConstData()+(cinfo.next_scanline*image.getConstData().getNumberofCols()));            
             jpeg_write_scanlines(&cinfo, &row, 1);
         }
 

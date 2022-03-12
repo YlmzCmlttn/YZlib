@@ -13,7 +13,7 @@ namespace YZlib{
         rows_ = _m.rows_;
         cols_ = _m.cols_;
         size_ = rows_*cols_;
-        data_ = std::make_unique<Tp[]>(size_);
+        data_ = new Tp[size_];
         majorOrder_ = _m.majorOrder_;
         parallel_ = _m.parallel_;
         copyData(_m.data_);

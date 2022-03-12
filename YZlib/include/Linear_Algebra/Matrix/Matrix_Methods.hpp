@@ -62,15 +62,15 @@ namespace YZlib{
     }
     //protected;
     template <typename Tp>
-    const std::unique_ptr<Tp[]>& Matrix_<Tp>::getConstData()const{
+    const Tp* Matrix_<Tp>::getConstData()const{
         return data_;
     }
     template <typename Tp>
-    std::unique_ptr<Tp[]>& Matrix_<Tp>::getData(){
+    Tp* Matrix_<Tp>::getData(){
         return data_;
     }
     template <typename Tp>
-    std::unique_ptr<Tp[]>&& Matrix_<Tp>::moveData(){
+    Tp* Matrix_<Tp>::moveData(){
         return std::move(data_);
     }
 
@@ -99,7 +99,7 @@ namespace YZlib{
 
     //private:
     template <typename Tp>
-    void Matrix_<Tp>::copyData(const std::unique_ptr<Tp[]>& _data){
+    void Matrix_<Tp>::copyData(const Tp* _data){
         Timer copyDataTimer("copyData timer:");
         MATRIX_WARNING_D("copyData(const std::unique_ptr<Tp[]>& _data)");
         std::function<Tp(Tp)> f = [](Tp a){return a;};
@@ -123,7 +123,7 @@ namespace YZlib{
     template<typename Tp>
     void Matrix_<Tp>::thread_operator_call(const Matrix_<Tp> &_m, const std::function<Tp(Tp,Tp)>& f){
         if(check_parallel()){
-            thread_wrapper<Tp,Tp>(f,this->size_,NUM_OF_THREAD,this->data_.get(),this->data_.get(),_m.data_.get());
+            thread_wrapper<Tp,Tp>(f,this->size_,NUM_OF_THREAD,this->data_,this->data_,_m.data_);
         }else{
             for(uint i=0;i<this->size_;i++){
                 this->data_[i]=f(this->data_[i],_m.get(i));
@@ -131,9 +131,9 @@ namespace YZlib{
         }
     }
     template<typename Tp>
-    void Matrix_<Tp>::thread_operator_call(const std::unique_ptr<Tp[]> &data, const std::function<Tp(Tp)>& f){
+    void Matrix_<Tp>::thread_operator_call(const Tp* data, const std::function<Tp(Tp)>& f){
         if(check_parallel()){
-            thread_wrapper<Tp,Tp>(f,this->size_,NUM_OF_THREAD,this->data_.get(),data.get());
+            thread_wrapper<Tp,Tp>(f,this->size_,NUM_OF_THREAD,this->data_,data);
         }else{
             for(uint i=0;i<this->size_;i++){
                 this->data_[i]=f(data[i]);
@@ -143,7 +143,7 @@ namespace YZlib{
     template<typename Tp>
     void Matrix_<Tp>::thread_operator_call(const Tp&_m, const std::function<Tp(Tp)>& f){
         if(check_parallel()){
-            thread_wrapper<Tp,Tp>(f,this->size_,NUM_OF_THREAD,this->data_.get(),_m);
+            thread_wrapper<Tp,Tp>(f,this->size_,NUM_OF_THREAD,this->data_,_m);
         }else{
             for(uint i=0;i<this->size_;i++){
                 this->data_[i]=f(_m);

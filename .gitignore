@@ -6,6 +6,7 @@ build
 build/
 examples/build/
 examples/build
+3rd_Party/
 # Prerequisites
 *.d
 
